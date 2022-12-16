@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "programmer": "arduino:avrisp",
+    "port": "COM3",
+    "sketch": "src\\tests\\animation2\\FQUHLMWJB3ZJFCZ.ino"
+}
