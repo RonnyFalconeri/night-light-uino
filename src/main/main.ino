@@ -1,30 +1,98 @@
 
-int potPin = 2;
-int potVal = 0;
-int led1 = 11;
-int led2 = 10;
-byte full= 255;
-byte low = 155;
-byte dim = 55;
+int led1 = 3;
+int led2 = 5;
+int led3 = 6;
+int led4 = 9;
+int led5 = 10;
+int led6 = 11;
+
+int del = 100;
 
 void setup(){
-  pinMode(potPin, INPUT);
+  Serial.begin(9600);
+
   pinMode(led1, OUTPUT);
   pinMode(led2, OUTPUT);  
+  pinMode(led3, OUTPUT);  
+  pinMode(led4, OUTPUT);  
+  pinMode(led5, OUTPUT);
+  pinMode(led6, OUTPUT);
 }
 
 void loop(){
-  potVal = analogRead(potPin);
+  int potVal = analogRead(A0);
 
-  if (potVal>=0 && potVal<205) {
+  int scale = map(potVal, 0, 1023, 0, 6);
+
+  Serial.print("Analog: ");
+  Serial.println(potVal);
+
+  Serial.print("Scale: ");
+  Serial.println(scale);
+
+  
+  if (scale==0) {
+    digitalWrite(led1, LOW);
+    digitalWrite(led2, LOW);
+    digitalWrite(led3, LOW);
+    digitalWrite(led4, LOW);
+    digitalWrite(led5, LOW);
+    digitalWrite(led6, LOW);
+  }
+
+  if (scale > 0) {
     digitalWrite(led1, HIGH);
     digitalWrite(led2, LOW);
+    digitalWrite(led3, LOW);
+    digitalWrite(led4, LOW);
+    digitalWrite(led5, LOW);
+    digitalWrite(led6, LOW);
   }
 
-  if (potVal>=205 && potVal<410) {
-    digitalWrite(led1, LOW);
+  if (scale > 1) {
+    digitalWrite(led1, HIGH);
     digitalWrite(led2, HIGH);
+    digitalWrite(led3, LOW);
+    digitalWrite(led4, LOW);
+    digitalWrite(led5, LOW);
+    digitalWrite(led6, LOW);
   }
 
-  delay(100);
+  if (scale > 2) {
+    digitalWrite(led1, HIGH);
+    digitalWrite(led2, HIGH);
+    digitalWrite(led3, HIGH);
+    digitalWrite(led4, LOW);
+    digitalWrite(led5, LOW);
+    digitalWrite(led6, LOW);
+  }
+
+  if (scale > 3) {
+    digitalWrite(led1, HIGH);
+    digitalWrite(led2, HIGH);
+    digitalWrite(led3, HIGH);
+    digitalWrite(led4, HIGH);
+    digitalWrite(led5, LOW);
+    digitalWrite(led6, LOW);
+  }
+
+  if (scale > 4) {
+    digitalWrite(led1, HIGH);
+    digitalWrite(led2, HIGH);
+    digitalWrite(led3, HIGH);
+    digitalWrite(led4, HIGH);
+    digitalWrite(led5, HIGH);
+    digitalWrite(led6, LOW);
+  }
+
+  if (scale > 5) {
+    digitalWrite(led1, HIGH);
+    digitalWrite(led2, HIGH);
+    digitalWrite(led3, HIGH);
+    digitalWrite(led4, HIGH);
+    digitalWrite(led5, HIGH);
+    digitalWrite(led6, HIGH);
+  }
+
+  delay(del);
 }
