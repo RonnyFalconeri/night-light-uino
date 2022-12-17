@@ -1,7 +1,8 @@
 /*
-    explain purpose of test
+    Running light effect
 
-    https://www.instructables.com/LED-Row-Fade-Arduino/
+    inspired from this page: https://www.instructables.com/LED-Row-Fade-Arduino/
+    
 */
 
 int led1 = 3;

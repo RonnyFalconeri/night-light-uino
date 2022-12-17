@@ -1,3 +1,8 @@
+/*
+    Running light effect with switch
+    
+*/
+
 int led1 = 3;
 int led2 = 5;
 int led3 = 6;
@@ -28,23 +33,8 @@ void setup(){
 
 void loop(){
   int potVal = analogRead(A0);
-
-  if(potVal <= turn_point) {
-    int lauf = map(potVal, 0, turn_point, 0, amount_leds);
-
-    lauflicht(lauf);
-  } else {
-    int brightness = map(potVal, turn_point, poti_max, brightness_min, brightness_max);
-    
-    analogWrite(led1, brightness);
-    analogWrite(led2, brightness);
-    analogWrite(led3, brightness);
-    analogWrite(led4, brightness);
-    analogWrite(led5, brightness);
-    analogWrite(led6, brightness);
-  }
-  
-
+ 
+  // TODO: implement
 }
 
 void lauflicht(int scale) {
