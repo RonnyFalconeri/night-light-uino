@@ -10,7 +10,7 @@
 - light animations
 - pictures, videos
 
-## A closer look
+## Hardware
 - Everything you need to know how to build the project for yourself
 
 ### Overview
@@ -22,7 +22,7 @@
 - C1, C2
 - connection with audio jacks, divison into modules, better for maintenance
 
-### Hardware List
+### Shopping List
 - Arduino nano everything
 - potis
 - aux connections, explain why
@@ -46,12 +46,30 @@
 - case
 - attachment to bed back board
 
-### Source Code
+## Software
+- vs code with arduino extension
+
+### Animation
+- explaination of different animation stages
+- using animations to justify using an arduino
+
+### Testing
 - prototype code snippets
     - potentiometer test
     - two potentiometers test
     - led strip test
     - two led strips test
     - control led strip with poti test
+- tests on real breadboard
+- tests on arduino simulator -> https://wokwi.com
+- pictures with wiring diagramms
+- poti with switch: https://www.deviceplus.com/arduino/the-basics-of-arduino-reading-switch-states/
+
+
+### Main
 - main code file
-- vs code with arduino extension
+
+## random
+- inspired by: https://www.youtube.com/watch?v=xF9WQjkjSR
+
+
