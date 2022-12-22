@@ -1,5 +1,5 @@
 /*
-    LED Strip controlled by potentiometer with animations
+    LED Strip controlled by potentiometer with animations and dynamic brightness
 
 */
 
@@ -7,17 +7,14 @@
 
 #define NUMPIXELS 144
 #define LED_DATA_PIN 6
+#define POT_DATA_PIN A0
+#define POT_SWITCH_PIN 7
+#define LOW_BRIGHTNESS 5
+#define DELAYVAL 10
 
 Adafruit_NeoPixel pixels(NUMPIXELS, LED_DATA_PIN, NEO_GRB + NEO_KHZ800);
 
-#define POT_DATA_PIN A0
-#define POT_SWITCH_PIN 7
-#define DELAYVAL 10
-
-#define STAGE_1_BRIGHTNESS 10
-#define STAGE_2_BRIGHTNESS 255
-
-bool is_switched_off = true;
+bool isSwitchedOff = true;
 
 void setup() {
   Serial.begin(9600);
@@ -30,10 +27,10 @@ void setup() {
 void loop() {
   
   if(isSwitchedOn()) {
+    
     turnOnIfNeeded();
 
-    // control pot
-    potController();
+    processCurrentInput();
     
   } else {
     turnOffIfNeeded();
@@ -42,15 +39,16 @@ void loop() {
   delay(DELAYVAL);
 }
 
-void potController() {
-  int lauf = map(analogRead(POT_DATA_PIN), 0, 1023, 0, NUMPIXELS);
+void processCurrentInput() {
+  int pivot = map(analogRead(POT_DATA_PIN), 0, 1023, 0, NUMPIXELS);
+  int dynamicBrightness = map(analogRead(POT_DATA_PIN), 0, 1023, LOW_BRIGHTNESS, 255);
 
-  for(int i=0; i < lauf; i++) {
-    pixels.setPixelColor(i, pixels.Color(0, 0, 255));
+  for(int i=0; i < pivot; i++) {
+    pixels.setPixelColor(i, getColor(dynamicBrightness));
   }
 
-  for(int i=lauf; i < NUMPIXELS; i++) {
-    pixels.setPixelColor(i, pixels.Color(0, 0, 10));
+  for(int i=pivot; i < NUMPIXELS; i++) {
+    pixels.setPixelColor(i, getColor(LOW_BRIGHTNESS));
   }
 
   pixels.show();
@@ -62,31 +60,35 @@ bool isSwitchedOn() {
 }
 
 void turnOnIfNeeded() {
-  if(is_switched_off) {
+  if(isSwitchedOff) {
       turnOn();
-      is_switched_off = false;
+      isSwitchedOff = false;
     }
 }
 
 void turnOffIfNeeded() {
-  if(!is_switched_off) {
+  if(!isSwitchedOff) {
     turnOff();
-    is_switched_off = true;
+    isSwitchedOff = true;
   }
 }
 
 void turnOn() {
   Serial.println("turning on.");
   for(int i=0; i < NUMPIXELS; i++) {
-    pixels.setPixelColor(i, pixels.Color(0, 0, 10));
-    pixels.show();
+    pixels.setPixelColor(i, getColor(LOW_BRIGHTNESS));
   }
+  pixels.show();
 }
 
 void turnOff() {
   Serial.println("turning off.");
   for(int i=NUMPIXELS-1; i >= 0; i--) {
-    pixels.setPixelColor(i, pixels.Color(0, 0, 0));
+    pixels.setPixelColor(i, getColor(0));
     pixels.show();
   }
+}
+
+uint32_t getColor(int brightness) {
+  return pixels.Color(0, 0, brightness);
 }
