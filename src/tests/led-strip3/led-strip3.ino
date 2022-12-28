@@ -22,6 +22,8 @@ void setup() {
   pinMode(POT_SWITCH_PIN, INPUT_PULLUP);
   
   pixels.begin();
+
+  startUpAnimation();
 }
 
 void loop() {
@@ -86,6 +88,23 @@ void turnOff() {
   for(int i=NUMPIXELS-1; i >= 0; i--) {
     pixels.setPixelColor(i, getColor(0));
     pixels.show();
+  }
+}
+
+void startUpAnimation() {
+  Serial.println("starting up.");
+  for(int j=0; j < 3; j++) {
+    for(int i=0; i < NUMPIXELS; i++) {
+      pixels.setPixelColor(i, getColor(255));
+    }
+    pixels.show();
+    delay(200);
+
+    for(int i=0; i < NUMPIXELS; i++) {
+      pixels.setPixelColor(i, getColor(0));
+    }
+    pixels.show();
+    delay(200);
   }
 }
 
