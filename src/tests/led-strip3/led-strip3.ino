@@ -6,7 +6,7 @@
 #include <Adafruit_NeoPixel.h>
 
 #define NUMPIXELS 144
-#define LED_DATA_PIN 6
+#define LED_DATA_PIN 5
 #define POT_DATA_PIN A0
 #define POT_SWITCH_PIN 7
 #define LOW_BRIGHTNESS 5
