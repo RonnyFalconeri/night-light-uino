@@ -2,14 +2,31 @@
 
 ## Intro
 
-### Presentation
-- pictures, videos
+### Overview
+A DIY night light for my bedroom using an Arduino as the processing unit, 2 LED strips for illumination and 2 potentiometers for the user interface.
 
-### Description & Requirements
-- DIY night light using arduino and his friends
-- philosophy: user friendly, minimalistic, hidden, no rgb
-- why arduino? im a programmer, i want to code something
-- 2 led strips, each controlled by a potentiometer -> increasing brightness
+
+    [show pictures and videos]
+
+
+Two LED strips are used to separate them into a left and right side so that me and my wife have our own separate light source which won't affect the other as much. 
+
+Each LED strip is controlled by a potentiometer. By turning the potentiometer the user can adjust the brightness. A special potentiometer is used which has an integrated "twist switch" causing it to "click" when the user starts turning, giving the user a more haptic feedback.
+
+The two LED strips and potentiometers are processed and controlled by a single Arduino Nano Every.
+
+
+### Requirements
+These are the requirements after which the project is build on:
+- User friendly:
+    - Easy to use (especially when dark)
+    - intuitive
+    - haptic feedback
+- LED strips are hidden behind backboard, only visible when turned on
+- Aluminium knobs which are integrated in the night stand
+- Quality warm white light instead of rgb
+- Using difusor channels to avoid seeing the individual leds and rather see one continuous light bar
+
 
 ### How it works
 - how to on and off
