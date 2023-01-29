@@ -1,115 +1,183 @@
-int led1 = 3;
-int led2 = 5;
-int led3 = 6;
-int led4 = 9;
-int led5 = 10;
-int led6 = 11;
+#include <Adafruit_NeoPixel.h>
 
-int del = 100;
+#define NUMPIXELS 144
 
-int poti_max = 1023;
-int amount_leds = 6;
+#define LED_DATA_PIN_LEFT 5
+#define POT_DATA_PIN_LEFT A0
+#define POT_SWITCH_PIN_LEFT 7
 
-int brightness_min = 50;
-int brightness_max = 255;
+#define LED_DATA_PIN_RIGHT 6
+#define POT_DATA_PIN_RIGHT A1
+#define POT_SWITCH_PIN_RIGHT 8
 
-int turn_point = (poti_max/5);
+#define LOW_BRIGHTNESS 5
+#define DELAYVAL 10
 
-void setup(){
+Adafruit_NeoPixel STRIP_LEFT(NUMPIXELS, LED_DATA_PIN_LEFT, NEO_RGBW + NEO_KHZ800);
+Adafruit_NeoPixel STRIP_RIGHT(NUMPIXELS, LED_DATA_PIN_RIGHT, NEO_RGBW + NEO_KHZ800);
+
+bool isLeftSwitchedOff = true;
+bool isRightSwitchedOff = true;
+
+void setup() {
   Serial.begin(9600);
 
-  pinMode(led1, OUTPUT);
-  pinMode(led2, OUTPUT);  
-  pinMode(led3, OUTPUT);  
-  pinMode(led4, OUTPUT);  
-  pinMode(led5, OUTPUT);
-  pinMode(led6, OUTPUT);
-}
-
-void loop(){
-  int potVal = analogRead(A0);
-
-  if(potVal <= turn_point) {
-    int lauf = map(potVal, 0, turn_point, 0, amount_leds);
-
-    lauflicht(lauf);
-  } else {
-    int brightness = map(potVal, turn_point, poti_max, brightness_min, brightness_max);
-    
-    analogWrite(led1, brightness);
-    analogWrite(led2, brightness);
-    analogWrite(led3, brightness);
-    analogWrite(led4, brightness);
-    analogWrite(led5, brightness);
-    analogWrite(led6, brightness);
-  }
+  pinMode(POT_SWITCH_PIN_LEFT, INPUT_PULLUP);
+  pinMode(POT_SWITCH_PIN_RIGHT, INPUT_PULLUP);
   
+  STRIP_LEFT.begin();
+  STRIP_RIGHT.begin();
 
+  startUpAnimation();
 }
 
-void lauflicht(int scale) {
-  if (scale==0) {
-    analogWrite(led1, LOW);
-    analogWrite(led2, LOW);
-    analogWrite(led3, LOW);
-    analogWrite(led4, LOW);
-    analogWrite(led5, LOW);
-    analogWrite(led6, LOW);
+void loop() {
+  
+  if(isLeftSwitchedOn()) {
+    
+    turnOnLeftIfNeeded();
+
+    processCurrentInputLeft();
+    
+  } else {
+    turnOffLeftIfNeeded();
   }
 
-  if (scale > 0) {
-    analogWrite(led1, brightness_min);
-    analogWrite(led2, LOW);
-    analogWrite(led3, LOW);
-    analogWrite(led4, LOW);
-    analogWrite(led5, LOW);
-    analogWrite(led6, LOW);
+  if(isRightSwitchedOn()) {
+    
+    turnOnRightIfNeeded();
+
+    processCurrentInputRight();
+    
+  } else {
+    turnOffRightIfNeeded();
   }
 
-  if (scale > 1) {
-    analogWrite(led1, brightness_min);
-    analogWrite(led2, brightness_min);
-    analogWrite(led3, LOW);
-    analogWrite(led4, LOW);
-    analogWrite(led5, LOW);
-    analogWrite(led6, LOW);
+  delay(DELAYVAL);
+}
+
+
+bool isLeftSwitchedOn() {
+  // because of INPUT_PULLUP, the values LOW and HIGH are switched
+  return digitalRead(POT_SWITCH_PIN_LEFT) == LOW;
+}
+
+bool isRightSwitchedOn() {
+  // because of INPUT_PULLUP, the values LOW and HIGH are switched
+  return digitalRead(POT_SWITCH_PIN_RIGHT) == LOW;
+}
+
+void turnOnLeftIfNeeded() {
+  if(isLeftSwitchedOff) {
+      turnLeftOn();
+      isLeftSwitchedOff = false;
+    }
+}
+
+void turnLeftOn() {
+  Serial.println("turning on.");
+  for(int i=0; i < NUMPIXELS; i++) {
+    STRIP_LEFT.setPixelColor(i, getColor(LOW_BRIGHTNESS));
+  }
+  STRIP_LEFT.show();
+}
+
+void turnOnRightIfNeeded() {
+  if(isRightSwitchedOff) {
+      turnRightOn();
+      isRightSwitchedOff = false;
+    }
+}
+
+void turnRightOn() {
+  Serial.println("turning on.");
+  for(int i=0; i < NUMPIXELS; i++) {
+    STRIP_RIGHT.setPixelColor(i, getColor(LOW_BRIGHTNESS));
+  }
+  STRIP_RIGHT.show();
+}
+
+void processCurrentInputLeft() {
+  int pivot = map(analogRead(POT_DATA_PIN_LEFT), 0, 1023, 0, NUMPIXELS);
+  int dynamicBrightness = map(analogRead(POT_DATA_PIN_LEFT), 0, 1023, LOW_BRIGHTNESS, 255);
+
+  for(int i=0; i < pivot; i++) {
+    STRIP_LEFT.setPixelColor(i, getColor(dynamicBrightness));
   }
 
-  if (scale > 2) {
-    analogWrite(led1, brightness_min);
-    analogWrite(led2, brightness_min);
-    analogWrite(led3, brightness_min);
-    analogWrite(led4, LOW);
-    analogWrite(led5, LOW);
-    analogWrite(led6, LOW);
+  for(int i=pivot; i < NUMPIXELS; i++) {
+    STRIP_LEFT.setPixelColor(i, getColor(LOW_BRIGHTNESS));
   }
 
-  if (scale > 3) {
-    analogWrite(led1, brightness_min);
-    analogWrite(led2, brightness_min);
-    analogWrite(led3, brightness_min);
-    analogWrite(led4, brightness_min);
-    analogWrite(led5, LOW);
-    analogWrite(led6, LOW);
+  STRIP_LEFT.show();
+}
+
+void processCurrentInputRight() {
+  int pivot = map(analogRead(POT_DATA_PIN_RIGHT), 0, 1023, 0, NUMPIXELS);
+  int dynamicBrightness = map(analogRead(POT_DATA_PIN_RIGHT), 0, 1023, LOW_BRIGHTNESS, 255);
+
+  for(int i=0; i < pivot; i++) {
+    STRIP_RIGHT.setPixelColor(i, getColor(dynamicBrightness));
   }
 
-  if (scale > 4) {
-    analogWrite(led1, brightness_min);
-    analogWrite(led2, brightness_min);
-    analogWrite(led3, brightness_min);
-    analogWrite(led4, brightness_min);
-    analogWrite(led5, brightness_min);
-    analogWrite(led6, LOW);
+  for(int i=pivot; i < NUMPIXELS; i++) {
+    STRIP_RIGHT.setPixelColor(i, getColor(LOW_BRIGHTNESS));
   }
 
-  if (scale > 5) {
-    analogWrite(led1, brightness_min);
-    analogWrite(led2, brightness_min);
-    analogWrite(led3, brightness_min);
-    analogWrite(led4, brightness_min);
-    analogWrite(led5, brightness_min);
-    analogWrite(led6, brightness_min);
-  }
+  STRIP_RIGHT.show();
+}
 
-  delay(del);
+void turnOffLeftIfNeeded() {
+  if(!isLeftSwitchedOff) {
+    turnOffLeft();
+    isLeftSwitchedOff = true;
+  }
+}
+
+void turnOffRightIfNeeded() {
+  if(!isRightSwitchedOff) {
+    turnOffRight();
+    isRightSwitchedOff = true;
+  }
+}
+
+void turnOffLeft() {
+  Serial.println("turning off.");
+  for(int i=NUMPIXELS-1; i >= 0; i--) {
+    STRIP_LEFT.setPixelColor(i, getColor(0));
+    STRIP_LEFT.show();
+  }
+}
+
+void turnOffRight() {
+  Serial.println("turning off.");
+  for(int i=NUMPIXELS-1; i >= 0; i--) {
+    STRIP_RIGHT.setPixelColor(i, getColor(0));
+    STRIP_RIGHT.show();
+  }
+}
+
+void startUpAnimation() {
+  Serial.println("starting up.");
+  for(int j=0; j < 3; j++) {
+    for(int i=0; i < NUMPIXELS; i++) {
+      STRIP_LEFT.setPixelColor(i, getColor(255));
+      STRIP_RIGHT.setPixelColor(i, getColor(255));
+    }
+    STRIP_LEFT.show();
+    STRIP_RIGHT.show();
+    delay(200);
+
+    for(int i=0; i < NUMPIXELS; i++) {
+      STRIP_LEFT.setPixelColor(i, getColor(0));
+      STRIP_RIGHT.setPixelColor(i, getColor(0));
+    }
+    STRIP_LEFT.show();
+    STRIP_RIGHT.show();
+    delay(200);
+  }
+}
+
+uint32_t getColor(int brightness) {
+  return STRIP_LEFT.Color(0, 0, 0, brightness);
 }

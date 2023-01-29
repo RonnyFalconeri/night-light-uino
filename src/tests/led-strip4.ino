@@ -1,6 +1,5 @@
 /*
     2 LED Strips controlled by potentiometer with animations and dynamic brightness (WS2812B)
-
 */
 
 #include <Adafruit_NeoPixel.h>

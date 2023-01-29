@@ -1,6 +1,5 @@
 /*
     LED Strip controlled by potentiometer with animations and dynamic brightness (SK6812)
-
 */
 
 #include <Adafruit_NeoPixel.h>
