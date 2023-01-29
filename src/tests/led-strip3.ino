@@ -1,6 +1,5 @@
 /*
-    LED Strip controlled by potentiometer with animations and dynamic brightness
-
+    LED Strip controlled by potentiometer with animations and dynamic brightness (WS2812B)
 */
 
 #include <Adafruit_NeoPixel.h>
@@ -12,7 +11,7 @@
 #define LOW_BRIGHTNESS 5
 #define DELAYVAL 10
 
-Adafruit_NeoPixel pixels(NUMPIXELS, LED_DATA_PIN, NEO_RGBW + NEO_KHZ800);
+Adafruit_NeoPixel pixels(NUMPIXELS, LED_DATA_PIN, NEO_GRB + NEO_KHZ800);
 
 bool isSwitchedOff = true;
 
@@ -109,5 +108,5 @@ void startUpAnimation() {
 }
 
 uint32_t getColor(int brightness) {
-  return pixels.Color(0, 0, 0, brightness);
+  return pixels.Color(0, 0, brightness);
 }

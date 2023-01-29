@@ -1,6 +1,5 @@
 /*
-    Hello World test with LED Strip
-
+    Hello World Rainbow test with LED Strip (SK6812)
 */
 
 #include <Adafruit_NeoPixel.h>
@@ -9,7 +8,7 @@
 
 #define NUMPIXELS 144
 
-Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel pixels(NUMPIXELS, PIN, NEO_RGBW + NEO_KHZ800);
 
 #define DELAYVAL 5
 

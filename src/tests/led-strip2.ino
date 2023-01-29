@@ -1,6 +1,5 @@
 /*
-    LED Strip controlled by potentiometer
-
+    LED Strip controlled by potentiometer (WS2812B)
 */
 
 #include <Adafruit_NeoPixel.h>

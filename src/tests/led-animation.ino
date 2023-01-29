@@ -1,8 +1,5 @@
 /*
     Running light effect
-
-    inspired from this page: https://www.instructables.com/LED-Row-Fade-Arduino/
-    
 */
 
 int led1 = 3;

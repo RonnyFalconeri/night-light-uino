@@ -1,6 +1,5 @@
 /*
     Running light effect with dynamic brightness
-
 */
 
 int led1 = 3;

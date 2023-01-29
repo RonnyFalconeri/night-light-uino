@@ -1,6 +1,5 @@
 /*
-    Hello World test with LED Strip
-
+    Hello World Rainbow test with two LED Strips (SK6812)
 */
 
 #include <Adafruit_NeoPixel.h>

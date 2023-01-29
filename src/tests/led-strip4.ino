@@ -1,5 +1,5 @@
 /*
-    LED Strip controlled by potentiometer with animations and dynamic brightness
+    2 LED Strips controlled by potentiometer with animations and dynamic brightness (WS2812B)
 
 */
 
