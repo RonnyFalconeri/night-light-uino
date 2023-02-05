@@ -139,6 +139,3 @@ I have a suspicion that its because of the analogs pin noise which changes the v
 So this is it - an over engineered night light, because thats what I do...
 
 Don't hesitate to improve this project ;-)
-
-## Tags
-night light, arduino, arduino nano, adafruit, neopixel, SK6812, WS2812B, led, led-strip, rgb, diy, trrs, potentiometer
