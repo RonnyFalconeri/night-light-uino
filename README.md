@@ -112,8 +112,6 @@ If the user further rotates counter clock wise, just before the click, every LED
 `Stage 3 - Click Off`: 
 When the potentiometer is being turned to the left until it clicks again, the strip will transition from low brightness to being completly switched off. The transition will happen one LED at the time, resulting in another walking effect.
 
-<video src="media/gallery/animation.mp4" width="500" controls ></video>
-
 ### Testing
 While prototyping, I used different sketches and hardware to get to my goal. These can be found in the `tests/` folder and they include tests such as:
 - Hello World rainbow effects
@@ -132,8 +130,6 @@ The main sketch, which is flushed into the Arduino Nano can be found in the `mai
 There is one unresolved issue for which I could not find a reliable solution yet: 
 Since the position of the potentiometer gets mapped to an LED adress, it can often lead to being right between to LED adresses, causing the last LED of the "walking line" to flicker.
 I have a suspicion that its because of the analogs pin noise which changes the value +/- 1.
-
-<video src="media/gallery/flicker.mp4" width="500" controls></video>
 
 ## Conclusion
 So this is it - an over engineered night light, because thats what I do...
